@@ -1,33 +1,26 @@
 import { portfolioData } from "../data/portfolioData";
 
-
 export default function Skills() {
   const { skills } = portfolioData;
 
   return (
-    <section id="skills" className="section skills-section">
+    <section id="skills" className="section">
       <div className="container">
         <div className="section-header">
-          <div className="section-eyebrow">COMPETENCIES</div>
-          <h2 className="section-title">Technical Stack &amp; Tooling</h2>
+          <div className="section-label">TOOLING</div>
+          <h2 className="section-title">Skills</h2>
           <p className="section-subtitle">
-            Languages, frameworks, vector databases, and machine learning libraries used across deployed systems.
+            Languages, machine learning libraries, databases, and deployment platforms used across shipped projects.
           </p>
         </div>
 
         <div className="skills-grid">
-          {skills.map((group, idx) => (
+          {skills.map((group) => (
             <div key={group.category} className="skill-category-card">
-              <div className="skill-card-top">
-                <span className="skill-group-idx">
-                  SYS.{(idx + 1).toString().padStart(2, "0")}
-                </span>
-                <h3 className="skill-group-title">{group.category}</h3>
-              </div>
-
-              <div className="skill-tags-cloud">
-                {group.skills.map((skill) => (
-                  <span key={skill} className="skill-tag">
+              <h3 className="skill-category-name">{group.category}</h3>
+              <div className="skill-items-list">
+                {group.items.map((skill) => (
+                  <span key={skill} className="skill-item-tag">
                     {skill}
                   </span>
                 ))}

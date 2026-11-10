@@ -15,14 +15,14 @@ const geistMono = Geist_Mono({
 });
 
 const siteUrl = "https://portfolio-website-anurag.vercel.app";
-const siteTitle = "Anurag Ashu | AI & ML Engineer — Portfolio & Case Studies";
+const siteTitle = "Anurag Ashu | AI & ML Engineer Portfolio";
 const siteDescription =
-  "Case studies in spatial computer vision (YOLOv11x, ByteTrack), grounded RAG study assistants, and fine-tuned Transformer NLP models by Anurag Ashu, final-year B.Tech in AI & ML.";
-const ogImageUrl = `${siteUrl}/og-image-v1.png`;
+  "Final-year B.Tech AI & ML student building computer vision, RAG and NLP systems end to end. Case studies, live demos and code.";
+const ogImageUrl = `${siteUrl}/og-image-v2.png`;
 
 export const viewport: Viewport = {
-  themeColor: "#0B0F17",
-  colorScheme: "dark",
+  themeColor: "#F5F2EC",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1
 };
@@ -37,23 +37,6 @@ export const metadata: Metadata = {
   applicationName: "Anurag Ashu Portfolio",
   authors: [{ name: "Anurag Ashu", url: "https://github.com/anurag004-coder" }],
   generator: "Next.js",
-  keywords: [
-    "Anurag Ashu",
-    "AI & ML Engineer",
-    "Computer Vision",
-    "YOLOv11",
-    "ByteTrack",
-    "Grounded RAG",
-    "StudyMind",
-    "Transformers Fine-Tuning",
-    "DistilBERT",
-    "DistilRoBERTa",
-    "Machine Learning Portfolio",
-    "B.Tech AI ML",
-    "FastAPI",
-    "PyTorch",
-    "Streamlit"
-  ],
   alternates: {
     canonical: siteUrl
   },
@@ -69,7 +52,7 @@ export const metadata: Metadata = {
         url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: "Anurag Ashu - AI & ML Engineer Portfolio & Case Studies",
+        alt: "Anurag Ashu — AI & ML Engineer Portfolio",
         type: "image/png"
       }
     ]
@@ -111,7 +94,7 @@ export default function RootLayout({
     jobTitle: "AI & ML Engineer",
     alumniOf: {
       "@type": "EducationalOrganization",
-      name: "Undergraduate Engineering Institution"
+      name: "Adamas University"
     },
     sameAs: [
       "https://github.com/anurag004-coder",
@@ -122,9 +105,8 @@ export default function RootLayout({
       "Computer Vision",
       "Object Tracking",
       "Retrieval-Augmented Generation",
-      "Transformer Fine-Tuning",
+      "Transformer Sequence Classification",
       "PyTorch",
-      "Deep Learning",
       "Machine Learning"
     ]
   };

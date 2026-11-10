@@ -1,59 +1,81 @@
 import { portfolioData } from "../data/portfolioData";
-import { GraduationCap, BookOpen } from "lucide-react";
 
 export default function Education() {
-  const { education } = portfolioData;
+  const { education, internships, certifications } = portfolioData;
 
   return (
-    <section id="education" className="section education-section">
+    <section id="education" className="section">
       <div className="container">
         <div className="section-header">
-          <div className="section-eyebrow">ACADEMIC BACKGROUND</div>
-          <h2 className="section-title">Education &amp; Core Foundations</h2>
+          <div className="section-label">BACKGROUND</div>
+          <h2 className="section-title">Education &amp; Experience</h2>
           <p className="section-subtitle">
-            Undergraduate engineering curriculum rooted in computer science theory, algorithms, and applied machine learning.
+            Academic degree, verified machine learning internships, and industry certifications.
           </p>
         </div>
 
-        <div className="education-cards">
-          {education.map((item) => (
-            <div key={item.degree} className="education-card">
-              <div className="edu-header">
-                <div className="edu-title-group">
-                  <div className="edu-icon-wrap" aria-hidden="true">
-                    <GraduationCap size={22} />
+        <div className="edu-grid">
+          {/* Left Column: Academic & Internships */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+            {/* Academic Card */}
+            <div className="academic-panel">
+              <h3 className="sub-panel-title">Degree</h3>
+              <div>
+                <div className="item-role">{education.degree}</div>
+                <div className="item-company">{education.university} • {education.location}</div>
+                <div className="item-meta">Graduation: {education.graduation}  |  CGPA: {education.cgpa}</div>
+                <div style={{ marginTop: "1rem" }}>
+                  <div style={{ fontSize: "0.8rem", fontWeight: 700, textTransform: "uppercase", color: "var(--text-muted)", marginBottom: "0.4rem" }}>
+                    Relevant Coursework
                   </div>
-                  <div>
-                    <h3 className="edu-degree">{item.degree}</h3>
-                    <div className="edu-institution">
-                      {item.institution} • {item.location}
-                    </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+                    {education.coursework.map((course) => (
+                      <span key={course} className="skill-item-tag" style={{ fontSize: "0.8rem" }}>
+                        {course}
+                      </span>
+                    ))}
                   </div>
-                </div>
-
-                <div className="edu-period">{item.period}</div>
-              </div>
-
-              <p className="edu-focus">{item.focus}</p>
-
-              <div className="edu-coursework-block">
-                <div className="coursework-label">
-                  <BookOpen size={14} aria-hidden="true" />
-                  <span>Key Technical Coursework</span>
-                </div>
-                <div className="coursework-pills">
-                  {item.coursework.map((course) => (
-                    <span key={course} className="coursework-pill">
-                      {course}
-                    </span>
-                  ))}
                 </div>
               </div>
             </div>
-          ))}
+
+            {/* Internships Card */}
+            <div className="experience-panel">
+              <h3 className="sub-panel-title">Internships</h3>
+              {internships.map((intern) => (
+                <div key={intern.company} className="timeline-item">
+                  <div className="item-role">{intern.role}</div>
+                  <div className="item-company">{intern.company}</div>
+                  <div className="item-meta">{intern.period}  |  {intern.location}</div>
+                  <ul className="item-bullets">
+                    {intern.bullets.map((b, idx) => (
+                      <li key={idx} className="item-bullet">
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Column: Verified Certifications */}
+          <div className="academic-panel">
+            <h3 className="sub-panel-title">Verified Certifications</h3>
+            <div className="cert-list">
+              {certifications.map((cert) => (
+                <div key={cert.title} className="cert-row">
+                  <div className="cert-name">{cert.title}</div>
+                  <div className="cert-meta">
+                    {cert.issuer} • {cert.date}
+                    {cert.credentialId && <span> • ID: {cert.credentialId}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
-

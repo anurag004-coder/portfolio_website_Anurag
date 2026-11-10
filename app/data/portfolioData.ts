@@ -1,241 +1,300 @@
-export interface CaseStudyProject {
+export interface FlagshipProject {
   id: string;
   title: string;
   category: string;
-  badge: string;
   problem: string;
   approach: string;
-  architectureDetails: string[];
-  metrics: {
-    label: string;
+  measuredResult: {
     value: string;
-    description: string;
-  }[];
-  tech: string[];
-  githubUrl: string;
+    label: string;
+    method: string;
+  };
+  designNotes: string;
+  stack: string[];
+  imageSrc?: string;
+  diagramSrc?: string;
+  imageAlt?: string;
+  diagramAlt?: string;
   liveUrl?: string;
-  verifiedStatus: string;
+  githubUrl: string;
 }
 
-export interface EducationItem {
-  period: string;
-  degree: string;
-  institution: string;
-  location: string;
-  focus: string;
-  coursework: string[];
-}
-
-export interface SkillGroup {
+export interface CompactProject {
+  id: string;
+  title: string;
   category: string;
-  skills: string[];
+  problem: string;
+  approach: string;
+  measuredResult: {
+    value: string;
+    label: string;
+    method: string;
+  };
+  designNotes: string;
+  stack: string[];
+  imageSrc?: string;
+  imageAlt?: string;
+  liveUrl?: string;
+  githubUrl: string;
+}
+
+export interface InternshipItem {
+  role: string;
+  company: string;
+  period: string;
+  location: string;
+  description: string;
+  bullets: string[];
+}
+
+export interface CertificationItem {
+  title: string;
+  issuer: string;
+  date: string;
+  credentialId?: string;
 }
 
 export const portfolioData = {
   personal: {
     name: "Anurag Ashu",
     shortName: "Anurag",
-    headline: "AI & ML Engineer",
-    role: "Final-Year B.Tech in AI & ML",
-    tagline: "Building end-to-end computer vision pipelines, grounded RAG agents, and fine-tuned transformer models.",
-    summary:
-      "Final-year B.Tech student in Artificial Intelligence and Machine Learning. I build working AI systems from data pipeline to deployment—specializing in spatial computer vision, retrieval-augmented generation with verified citations, and domain-adapted Transformer fine-tuning.",
-    location: "India",
+    degree: "B.Tech in Artificial Intelligence & Machine Learning",
+    university: "Adamas University",
+    availability: "Graduating 2027 · open to ML internships and full-time roles",
+    proofLine: "6 shipped projects with live demos",
+    tagline: "Building computer vision, RAG with citations, and NLP systems end to end.",
+    bio: "Final-year student specializing in practical AI systems. I focus on spatial computer vision, retrieval-augmented generation with verified source citations, and domain-adapted NLP sequence classification.",
+    location: "Kolkata, India",
     email: "anuragjha724@gmail.com",
     github: "https://github.com/anurag004-coder",
     linkedin: "https://www.linkedin.com/in/anurag-ashu-834837263",
     canonicalUrl: "https://portfolio-website-anurag.vercel.app"
   },
 
+  education: {
+    university: "Adamas University",
+    degree: "B.Tech in Artificial Intelligence & Machine Learning",
+    graduation: "Expected 2027",
+    cgpa: "8.08 / 10.0 (through semester 6)",
+    location: "Kolkata, India",
+    coursework: [
+      "Machine Learning & Pattern Recognition",
+      "Deep Learning & Computer Vision",
+      "Natural Language Processing",
+      "Data Structures & Algorithms",
+      "Database Management Systems",
+      "Operating Systems"
+    ]
+  },
+
+  internships: [
+    {
+      role: "Data Scientist Intern",
+      company: "Magillabs Technology Private Limited",
+      period: "Jun 2026 – Jul 2026",
+      location: "Remote",
+      description: "Exploratory data analysis and baseline ML modeling on enterprise datasets.",
+      bullets: [
+        "Preprocessed multi-source tabular datasets and conducted distribution analysis for statistical anomaly detection.",
+        "Built predictive machine learning baseline models and assembled reporting dashboards for metric tracking."
+      ]
+    },
+    {
+      role: "Data Analytics Intern",
+      company: "InAmigos Foundation",
+      period: "Jun 2026",
+      location: "Remote",
+      description: "Operational metric analysis and structured reporting.",
+      bullets: [
+        "Analyzed operational engagement data and compiled structured summary reports.",
+        "Awarded Certificate of Appreciation for technical commitment and timely delivery."
+      ]
+    }
+  ] as InternshipItem[],
+
+  certifications: [
+    {
+      title: "Agentic AI Certified Foundations Associate",
+      issuer: "Oracle University",
+      date: "Aug 2026",
+      credentialId: "330864404AAI26OFA"
+    },
+    {
+      title: "Gen AI Tools Assessment (NSQF Level 5, Gold - 94%)",
+      issuer: "IT-ITeS NASSCOM & Govt. of India",
+      date: "Sep 2026",
+      credentialId: "FSP/2026/9/10375254"
+    },
+    {
+      title: "Model Context Protocol: Advanced Topics",
+      issuer: "Anthropic",
+      date: "2026",
+      credentialId: "gn63wcnfm7nf-1787653034"
+    },
+    {
+      title: "Claude with the Anthropic API",
+      issuer: "Anthropic",
+      date: "2026",
+      credentialId: "ajeropc7do2r-1787637410"
+    },
+    {
+      title: "Elements of AI (2 ECTS Credits)",
+      issuer: "University of Helsinki & MinnaLearn",
+      date: "Aug 2026",
+      credentialId: "mooc.fi: vl3o2m921or"
+    }
+  ] as CertificationItem[],
+
   skills: [
     {
-      category: "Computer Vision & Spatial Intelligence",
-      skills: ["YOLOv11", "ByteTrack", "OpenCV", "Planar Homography", "HSV Color Masking", "Voronoi Partitioning"]
+      category: "Languages",
+      items: ["Python", "C/C++", "TypeScript", "JavaScript", "SQL"]
     },
     {
-      category: "LLMs, RAG & Agentic Systems",
-      skills: ["FastAPI", "Qdrant Vector DB", "Reciprocal Rank Fusion (RRF)", "BM25 Retrieval", "Citation Verification", "LangChain / Graph Flow"]
+      category: "Machine Learning & Vision",
+      items: ["PyTorch", "YOLOv11x", "ByteTrack", "OpenCV", "Scikit-Learn", "XGBoost", "Hugging Face Transformers"]
     },
     {
-      category: "Deep Learning & Transformers",
-      skills: ["PyTorch", "Hugging Face Transformers", "DistilBERT", "DistilRoBERTa", "Model Fine-Tuning", "Tokenization"]
+      category: "RAG & Backend Systems",
+      items: ["FastAPI", "Qdrant Vector DB", "BM25 Retrieval", "SQLite", "Docker", "Next.js", "Streamlit"]
     },
     {
-      category: "Classical ML & Predictive Systems",
-      skills: ["Scikit-Learn", "XGBoost", "Feature Engineering", "Model Serialization (Pickle/SAV)", "NumPy", "Pandas"]
-    },
-    {
-      category: "Engineering & Cloud Deployment",
-      skills: ["Python", "TypeScript", "Next.js", "Docker", "Streamlit Cloud", "Vercel", "Git & GitHub", "REST APIs"]
+      category: "Data & Evaluation Tools",
+      items: ["Pandas", "NumPy", "Plotly", "Matplotlib", "Git", "Linux / Bash"]
     }
-  ] as SkillGroup[],
+  ],
 
-  projects: [
+  // 3 Flagship Projects (Expanded)
+  flagshipProjects: [
     {
       id: "football-analysis-computer-vision",
-      title: "Autonomous Football Computer Vision & Tactical Analytics Pipeline",
-      category: "Computer Vision & Spatial Intelligence",
-      badge: "Spatial CV Pipeline",
+      title: "Autonomous Football Computer Vision & Tactical Pipeline",
+      category: "Computer Vision & Spatial Analytics",
       problem:
-        "Broadcast match video lacks 2D metric pitch coordinates, dynamic space ownership partitions, and player physical telemetry without costly stadium multi-camera tracking systems.",
+        "Single-camera broadcast football footage lacks automated 2D pitch coordinates, space control maps, and player physical telemetry without costly multi-camera stadium rigs.",
       approach:
-        "Built a two-pass computer vision pipeline coupling YOLOv11x object detection with a modified ByteTrack algorithm, HSV color-space torso extraction with K-Means kit clustering, FIFA planar homography projection, dynamic Voronoi space control partitions, and directed passing networks.",
-      architectureDetails: [
-        "YOLOv11x detection paired with modified ByteTrack multi-object tracking",
-        "HSV color-space torso masking with K-Means clustering for zero-label squad identification",
-        "Planar perspective projection mapping 1080p broadcast pixels onto FIFA 105m × 68m coordinates",
-        "Dynamic Voronoi space dominance computation and passing volume network graphs"
-      ],
-      metrics: [
-        { label: "ID Switch Rate", value: "0.00%", description: "Zero identity switches across complex occlusion sequences" },
-        { label: "Homography Error", value: "<0.1 px", description: "Planar projection error mapped to 105m × 68m pitch" },
-        { label: "Feed Resolution", value: "1080p @ 60fps", description: "Processes single-camera broadcast video without sensors" }
-      ],
-      tech: ["Python", "PyTorch", "YOLOv11x", "ByteTrack", "OpenCV", "Docker", "Vercel"],
-      githubUrl: "https://github.com/anurag004-coder/football-analysis-computer-vision",
+        "Implemented a two-pass computer vision pipeline coupling YOLOv11x detection with a modified ByteTrack algorithm, HSV pitch-masked K-Means kit clustering, 4-point planar homography projection onto FIFA pitch dimensions, and dynamic Voronoi space control partitions.",
+      measuredResult: {
+        value: "Feed: 1080p @ 30/60 fps",
+        label: "Processed Input",
+        method: "Evaluated on single uncalibrated broadcast footage without wearable GPS tracking"
+      },
+      designNotes:
+        "YOLOv11x + ByteTrack tracking, 105m × 68m FIFA pitch model, dynamic Voronoi space partitions, passing volume network graphs. Tracking ID stability not formally benchmarked on standard MOT test datasets.",
+      stack: ["Python", "PyTorch", "YOLOv11x", "ByteTrack", "OpenCV", "Docker", "Vercel"],
+      imageSrc: "/projects/football-cv.jpg",
+      diagramSrc: "/projects/football-cv-arch.svg",
+      imageAlt: "Football computer vision tracking showing player bounding boxes and tactical radar",
+      diagramAlt: "Football analytics computer vision pipeline architecture diagram",
       liveUrl: "https://football-analysis-computer-vision-eight.vercel.app/",
-      verifiedStatus: "Live Demo Verified (HTTP 200)"
+      githubUrl: "https://github.com/anurag004-coder/football-analysis-computer-vision"
     },
     {
       id: "studymind",
-      title: "StudyMind — Grounded Study Assistant & Anti-Hallucination RAG",
-      category: "Agentic RAG & Knowledge Retrieval",
-      badge: "Grounded RAG",
+      title: "StudyMind — Grounded Study Assistant with Verified Citations",
+      category: "Retrieval-Augmented Generation (RAG)",
       problem:
-        "Conventional conversational LLMs frequently hallucinate facts and fail to provide verifiable citations when students query dense academic textbooks, lecture slides, and research papers.",
+        "Conventional conversational LLMs frequently hallucinate facts and lack verbatim citations when students query dense textbooks, lecture slides, and research papers.",
       approach:
-        "Engineered a 5-layer anti-hallucination RAG pipeline combining Reciprocal Rank Fusion of dense embeddings and lexical BM25 search, prompt-injection context fencing, deterministic quote-matching with PDF split-viewer highlighting, and explicit abstention when retrieval evidence is insufficient.",
-      architectureDetails: [
-        "Hybrid retrieval (dense vector embeddings + lexical BM25) with Reciprocal Rank Fusion",
-        "Untrusted context fencing to prevent prompt injection inside user documents",
-        "Deterministic quote-matching and bounding-box synchronization to jump directly to PDF source pages",
-        "Natural language inference claim verification with clean refusal when evidence is weak"
-      ],
-      metrics: [
-        { label: "Citation Rule", value: "100% Verifiable", description: "Every factual claim bound to an exact verbatim source chunk" },
-        { label: "Hallucination Defense", value: "5-Layer Pipeline", description: "NLI claim checking with deterministic refusal" },
-        { label: "Rate Limiting", value: "60 req / min", description: "Sliding-window limiter with tenant workspace isolation" }
-      ],
-      tech: ["Python", "FastAPI", "Qdrant Vector DB", "SQLAlchemy 2.0", "BM25", "Docker", "Vercel"],
-      githubUrl: "https://github.com/anurag004-coder/studymind",
+        "Developed a retrieval pipeline combining Reciprocal Rank Fusion of dense embeddings and lexical BM25 search, untrusted context fencing to mitigate prompt injection, deterministic quote-matching with PDF split-viewer highlighting, and explicit abstention when evidence is insufficient.",
+      measuredResult: {
+        value: "Verbatim Quote-Matching",
+        label: "Grounding Precision",
+        method: "Every factual claim bound to verified source chunk; clean abstention when evidence is weak"
+      },
+      designNotes:
+        "Hybrid retrieval (dense vector embeddings + lexical BM25), Qdrant vector database, sliding-window rate limit (60 req/min per user), tenant data isolation.",
+      stack: ["Python", "FastAPI", "Qdrant", "SQLAlchemy", "BM25", "Docker", "Vercel"],
+      diagramSrc: "/projects/studymind-arch.svg",
+      diagramAlt: "StudyMind grounded retrieval and citation verification architecture diagram",
       liveUrl: "https://frontend-mu-seven-gmmp4fw1jh.vercel.app",
-      verifiedStatus: "Live Demo Verified (HTTP 200)"
+      githubUrl: "https://github.com/anurag004-coder/studymind"
     },
     {
       id: "mono-time",
-      title: "Mono Time — Luxury Horology Commerce & Multi-Agent Concierge",
-      category: "Full-Stack AI & Intelligent Commerce",
-      badge: "Multi-Agent System",
+      title: "Mono Time — Timepiece Storefront & Wrist-Fit Sizing Calculator",
+      category: "Full-Stack Web & Sizing Heuristics",
       problem:
-        "Luxury timepiece e-commerce suffers from flat 2D catalogs, wrist-fit sizing uncertainty, and disconnected chatbots that hallucinate inventory or spam intrusive cards.",
+        "Online watch buyers cannot verify whether a specific case diameter and lug-to-lug span will fit their wrist circumference, leading to sizing return rates, while standard e-commerce bots lack inventory-grounded recommendation logic.",
       approach:
-        "Engineered a full-stack boutique platform combining Three.js procedural 3D chronometer rendering, top-down SVG wrist-fit calculation (evaluating circumference to flat wrist width and lug-to-lug proportions), and a Google Gemini AI concierge with offline local RAG fallback and relational order persistence.",
-      architectureDetails: [
-        "Procedural 3D chronometer engine built with Three.js / WebGL",
-        "Trigonometric wrist-fit calculator mapping circumference to flat width and lug-to-lug overhang",
-        "Docked Gemini concierge with offline local RAG fallback and token cost capping",
-        "FastAPI REST gateway with relational SQLite persistence for orders and dwell sessions"
-      ],
-      metrics: [
-        { label: "Sizing Logic", value: "0mm Overhang", description: "Trigonometric evaluation of lug overhang on flat wrist width" },
-        { label: "Cost Guard", value: "6 req / min", description: "Per-IP sliding limiter with local offline RAG fallback" },
-        { label: "Data Store", value: "Persistent SQLite", description: "Relational order transactions with admin session inspection" }
-      ],
-      tech: ["Next.js 14", "TypeScript", "FastAPI", "SQLite", "Three.js", "Tailwind CSS", "Google Gemini"],
-      githubUrl: "https://github.com/anurag004-coder/mono-time",
-      verifiedStatus: "Full-Stack Repository Verified"
+        "Built a boutique storefront combining procedural 3D chronometer rendering in Three.js, a trigonometric wrist-fit calculator mapping circumference to flat wrist width to evaluate lug overhang, and an AI horology assistant with local offline RAG fallback and persistent SQLite order storage.",
+      measuredResult: {
+        value: "Lug Overhang Check",
+        label: "Fit Validation",
+        method: "Trigonometric evaluation mapping wrist circumference to flat wrist surface width"
+      },
+      designNotes:
+        "Next.js App Router, Three.js WebGL procedural watch model, FastAPI REST backend, in-memory IP rate limiter (6 req/min), SQLite relational database for orders.",
+      stack: ["Next.js", "TypeScript", "FastAPI", "SQLite", "Three.js", "Tailwind CSS"],
+      imageSrc: "/projects/mono-time.png",
+      imageAlt: "Mono Time storefront interface with watch details and sizing calculations",
+      githubUrl: "https://github.com/anurag004-coder/mono-time"
+    }
+  ] as FlagshipProject[],
+
+  // Compact Projects
+  compactProjects: [
+    {
+      id: "financial-sentiment-analyzer",
+      title: "Context-Aware Financial Sentiment Analyzer",
+      category: "Financial NLP & Sequence Modeling",
+      problem:
+        "General sentiment models misinterpret financial idioms, treating cost-cutting or restructuring as negative rather than positive investor signals.",
+      approach:
+        "Deployed a specialized DistilRoBERTa sequence classification pipeline to evaluate corporate earnings statements, tested against Financial PhraseBank with dynamic batch evaluation (1–50 items).",
+      measuredResult: {
+        value: "98.23% Accuracy",
+        label: "Benchmark Accuracy",
+        method: "Evaluated on Financial PhraseBank (sentences_allagree test set, batch size 1–50)"
+      },
+      designNotes:
+        "DistilRoBERTa backbone (mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis), 3-class softmax (Positive, Negative, Neutral), Streamlit web interface.",
+      stack: ["Python", "DistilRoBERTa", "Hugging Face", "PyTorch", "Streamlit", "Pandas"],
+      imageSrc: "/projects/financial-sentiment.png",
+      imageAlt: "Financial sentiment analyzer showing classification results and confidence scores",
+      liveUrl: "https://financialsentimentanalyzer04.streamlit.app/",
+      githubUrl: "https://github.com/anurag004-coder/Financial_Sentiment_Analyzer"
     },
     {
       id: "custom-sentiment-dashboard",
       title: "Custom Sentiment Analysis Transformer Dashboard",
-      category: "Natural Language Processing",
-      badge: "Hugging Face Fine-Tuned",
+      category: "NLP & Sequence Classification",
       problem:
-        "Standard off-the-shelf sentiment models lack domain-specific sequence classification accuracy and do not offer intuitive interfaces for bulk dataset processing.",
+        "Off-the-shelf sentiment models lack domain-adapted sequence classification and intuitive interfaces for batch dataset analysis.",
       approach:
-        "Fine-tuned a DistilBERT sequence classification model (`Anurag4848/sentiment-analysis-custom`, 66.9M parameters), published weights to Hugging Face Model Hub, and engineered an interactive Streamlit dashboard supporting real-time text scoring and bulk CSV/Excel ingestion with distribution charts.",
-      architectureDetails: [
-        "DistilBERT sequence classification encoder fine-tuned and hosted on Hugging Face Hub",
-        "Real-time tokenization and Softmax confidence score computation",
-        "Batch CSV/Excel ingestion pipeline with automated distribution bar charts",
-        "Resource-cached model loading for low-memory Streamlit Cloud execution"
-      ],
-      metrics: [
-        { label: "Model Weights", value: "66.9M Params", description: "Fine-tuned DistilBERT model weights hosted on Hugging Face" },
-        { label: "Inference Latency", value: "<100ms", description: "Cached in-memory model evaluation per text input" },
-        { label: "Batch Pipeline", value: "CSV / Excel", description: "Bulk dataset ingestion with downloadable analysis reports" }
-      ],
-      tech: ["Python", "PyTorch", "Hugging Face Transformers", "Streamlit", "Plotly"],
-      githubUrl: "https://github.com/anurag004-coder/Custom-Sentiment-Analysis-Dashboard-fine-tuned-AI-model.",
+        "Fine-tuned a DistilBERT sequence classification model (Anurag4848/sentiment-analysis-custom), published weights to Hugging Face Hub, and engineered an interactive Streamlit application supporting single-sentence evaluation and bulk CSV ingestion.",
+      measuredResult: {
+        value: "Inference Verified",
+        label: "Model Execution",
+        method: "Batch and single-text evaluation verified; not formally benchmarked on a public held-out split"
+      },
+      designNotes:
+        "DistilBERT sequence classification encoder (66.95M parameters) hosted on Hugging Face Model Hub, Streamlit Cloud deployment with Plotly distribution charts.",
+      stack: ["Python", "PyTorch", "Hugging Face Transformers", "Streamlit", "Plotly"],
       liveUrl: "https://custom-sentiment-analysis-dashboard-fine-tuned-ai-model-pkgxql.streamlit.app/",
-      verifiedStatus: "Live Demo Verified (Streamlit Cloud)"
-    },
-    {
-      id: "financial-sentiment-analyzer",
-      title: "Context-Aware Financial Sentiment Analyzer",
-      category: "Financial NLP & Deep Learning",
-      badge: "DistilRoBERTa Specialization",
-      problem:
-        "Generic NLP sentiment analyzers invert polarity on financial terms (e.g. treating 'cost cutting' or 'headcount optimization' as negative rather than positive for company margins).",
-      approach:
-        "Trained a domain-specialized DistilRoBERTa sequence classification pipeline on the Financial PhraseBank dataset, contextualizing corporate statements into Positive, Negative, and Neutral sentiment with calibrated confidence scores.",
-      architectureDetails: [
-        "Domain-adapted DistilRoBERTa sequence classification architecture",
-        "Financial PhraseBank integration for specialized corporate market vocabulary",
-        "Real-time confidence scoring and dynamic batch testing (1–50 items)",
-        "Streamlit web interface with immediate feedback telemetry"
-      ],
-      metrics: [
-        { label: "Benchmark Dataset", value: "Financial PhraseBank", description: "Evaluated on corporate market disclosures and earnings" },
-        { label: "Dynamic Batching", value: "1–50 Statements", description: "Evaluates batched financial phrases with error bounds" },
-        { label: "Polarity Classes", value: "3-Class Softmax", description: "Calibrated Positive, Negative, and Neutral score gauges" }
-      ],
-      tech: ["Python", "DistilRoBERTa", "Hugging Face", "PyTorch", "Streamlit", "Pandas"],
-      githubUrl: "https://github.com/anurag004-coder/Financial_Sentiment_Analyzer",
-      liveUrl: "https://financialsentimentanalyzer04.streamlit.app/",
-      verifiedStatus: "Live Demo Verified (Streamlit Cloud)"
-    },
+      githubUrl: "https://github.com/anurag004-coder/Custom-Sentiment-Analysis-Dashboard-fine-tuned-AI-model."
+    }
+  ] as CompactProject[],
+
+  // Compact "More Projects" Row
+  moreProjects: [
     {
       id: "calories-burnt-prediction",
-      title: "Biometric Calorie Expenditure Prediction Engine",
-      category: "Predictive Regressors & Analytics",
-      badge: "XGBoost Regressor",
+      title: "Calorie Expenditure Prediction Engine",
+      category: "Predictive Modeling & Regression",
       problem:
-        "Forecasting real-time caloric expenditure during physical activity requires non-linear regression across multiple correlated physiological and telemetry signals.",
+        "Estimating caloric burn during exercise requires non-linear regression across multiple correlated physiological and telemetry signals.",
       approach:
-        "Trained and hyperparameter-tuned an XGBoost Regressor on exercise telemetry datasets (heart rate, body temperature, duration, age, weight), serialized the pipeline with Pickle, and deployed an interactive Streamlit application with BMI classification.",
-      architectureDetails: [
-        "XGBoost Regressor trained on biometric and physical activity telemetry",
-        "Feature scaling and data preprocessing pipeline with Scikit-Learn",
-        "Serialized model file (SAV/Pickle) cached for sub-50ms web inference",
-        "Integrated BMI calculator and metabolic activity classification"
-      ],
-      metrics: [
-        { label: "Inference Latency", value: "<50ms", description: "Sub-50ms cached execution via serialized model pipeline" },
-        { label: "Biometric Features", value: "7 Parameters", description: "Heart rate, duration, body temp, height, weight, age, sex" },
-        { label: "Model Type", value: "Gradient Boosted Trees", description: "XGBoost regressor with non-linear feature interaction" }
-      ],
-      tech: ["Python", "XGBoost", "Scikit-Learn", "NumPy", "Pandas", "Streamlit"],
-      githubUrl: "https://github.com/anurag004-coder/CaloriesBurntPrediction_App",
-      verifiedStatus: "Repository Verified"
+        "Cleaned and normalized multi-dimensional exercise telemetry, trained an XGBoost Regressor on 15,000 samples (80/20 train/test split: 12,000 train, 3,000 test), and serialized the model with Pickle for low-latency web inference.",
+      measuredResult: {
+        value: "MAE = 1.48 kcal",
+        label: "Mean Absolute Error",
+        method: "Measured on 3,000 held-out test samples (7 biometric features: heart rate, duration, body temp, weight, height, age, sex)"
+      },
+      designNotes:
+        "XGBoost Regressor (300 estimators, learning rate 0.05, max depth 5), serialized model file cached in memory, Streamlit GUI with BMI calculation.",
+      stack: ["Python", "XGBoost", "Scikit-Learn", "NumPy", "Pandas", "Streamlit"],
+      githubUrl: "https://github.com/anurag004-coder/CaloriesBurntPrediction_App"
     }
-  ] as CaseStudyProject[],
-
-  education: [
-    {
-      period: "2023 – Present (Final Year)",
-      degree: "B.Tech in Artificial Intelligence & Machine Learning / CSE",
-      institution: "Undergraduate Engineering",
-      location: "India",
-      focus: "Machine Learning, Deep Neural Networks, Natural Language Processing, and Distributed Systems.",
-      coursework: [
-        "Machine Learning & Pattern Recognition",
-        "Deep Learning & Computer Vision",
-        "Natural Language Processing",
-        "Data Structures & Algorithms",
-        "Database Management Systems",
-        "Operating Systems"
-      ]
-    }
-  ] as EducationItem[]
+  ] as CompactProject[]
 };

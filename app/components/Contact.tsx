@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { portfolioData } from "../data/portfolioData";
-import { GithubIcon, LinkedinIcon } from "./Icons";
-import { Mail, Send, Copy, Check, ExternalLink, Loader2, AlertCircle } from "lucide-react";
+import { Copy, Check, Send, Loader2, AlertCircle } from "lucide-react";
 
 export default function Contact() {
   const { personal } = portfolioData;
@@ -14,7 +13,7 @@ export default function Contact() {
     email: "",
     subject: "",
     message: "",
-    hp_website: "" // Honeypot field for bot filtering
+    hp_website: ""
   });
 
   const [status, setStatus] = useState<{
@@ -25,7 +24,6 @@ export default function Contact() {
     message: ""
   });
 
-  // Obfuscated email representation
   const emailUser = "anuragjha724";
   const emailDomain = "gmail.com";
   const fullEmail = `${emailUser}@${emailDomain}`;
@@ -38,12 +36,6 @@ export default function Contact() {
     } catch {
       // Fallback
     }
-  };
-
-  const handleMailto = () => {
-    window.location.href = `mailto:${fullEmail}?subject=${encodeURIComponent(
-      formData.subject || "Portfolio Inquiry"
-    )}`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -102,116 +94,89 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section contact-section">
+    <section id="contact" className="section">
       <div className="container">
         <div className="section-header">
-          <div className="section-eyebrow">CONTACT</div>
+          <div className="section-label">CONTACT</div>
           <h2 className="section-title">Get in Touch</h2>
           <p className="section-subtitle">
-            Open to AI/ML engineering roles, research internships, and technical collaboration.
+            Open to machine learning internships, engineering roles, and technical discussions.
           </p>
         </div>
 
         <div className="contact-grid">
-          {/* Left Column: Direct verified channels */}
-          <div className="contact-info-panel">
-            <h3 className="contact-panel-title">Direct Communication</h3>
-            <p className="contact-panel-desc">
-              Feel free to send a message via the form or reach out directly on LinkedIn or email.
+          {/* Direct channels */}
+          <div className="contact-panel">
+            <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.25rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+              Direct Channels
+            </h3>
+            <p style={{ fontSize: "0.92rem", color: "var(--text-secondary)", marginBottom: "1.5rem" }}>
+              Reach out directly or send a message using the form.
             </p>
 
-            <div className="contact-methods">
-              {/* Email Box with Obfuscation & Copy */}
-              <div className="contact-method-card">
-                <div className="method-icon-wrap" aria-hidden="true">
-                  <Mail size={18} />
-                </div>
-                <div className="method-content">
-                  <div className="method-label">Email Address</div>
-                  <div className="method-value">
-                    <span>{emailUser}</span>
-                    <span className="at-symbol">@</span>
-                    <span>{emailDomain}</span>
-                  </div>
-                </div>
-                <div className="method-actions">
-                  <button
-                    type="button"
-                    onClick={handleCopyEmail}
-                    className="btn btn-secondary btn-xs"
-                    title="Copy email to clipboard"
-                    aria-label="Copy email address"
-                  >
-                    {copied ? <Check size={13} /> : <Copy size={13} />}
-                    <span>{copied ? "Copied" : "Copy"}</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleMailto}
-                    className="btn btn-primary btn-xs"
-                    title="Open mail application"
-                    aria-label="Send email"
-                  >
-                    <span>Send</span>
-                  </button>
-                </div>
+            <div className="contact-method-card">
+              <div>
+                <div className="method-label">Email</div>
+                <div className="method-val">{emailUser}@{emailDomain}</div>
               </div>
-
-              {/* LinkedIn Box */}
-              <a
-                href={personal.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-method-card"
-                title="Open Anurag Ashu's LinkedIn profile"
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="btn btn-secondary btn-sm"
+                title="Copy email address"
               >
-                <div className="method-icon-wrap" aria-hidden="true">
-                  <LinkedinIcon size={18} />
-                </div>
-                <div className="method-content">
-                  <div className="method-label">LinkedIn Profile</div>
-                  <div className="method-value">in/anurag-ashu-834837263</div>
-                </div>
-                <ExternalLink size={15} className="method-arrow" aria-hidden="true" />
-              </a>
-
-              {/* GitHub Box */}
-              <a
-                href={personal.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-method-card"
-                title="Open Anurag Ashu's GitHub profile"
-              >
-                <div className="method-icon-wrap" aria-hidden="true">
-                  <GithubIcon size={18} />
-                </div>
-                <div className="method-content">
-                  <div className="method-label">GitHub Repositories</div>
-                  <div className="method-value">github.com/anurag004-coder</div>
-                </div>
-                <ExternalLink size={15} className="method-arrow" aria-hidden="true" />
-              </a>
+                {copied ? <Check size={13} /> : <Copy size={13} />}
+                <span>{copied ? "Copied" : "Copy"}</span>
+              </button>
             </div>
+
+            <a
+              href={personal.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-method-card"
+            >
+              <div>
+                <div className="method-label">LinkedIn</div>
+                <div className="method-val">in/anurag-ashu-834837263</div>
+              </div>
+              <span style={{ fontSize: "0.85rem", color: "var(--accent-vermilion)" }}>Connect ↗</span>
+            </a>
+
+            <a
+              href={personal.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-method-card"
+            >
+              <div>
+                <div className="method-label">GitHub</div>
+                <div className="method-val">github.com/anurag004-coder</div>
+              </div>
+              <span style={{ fontSize: "0.85rem", color: "var(--accent-vermilion)" }}>View ↗</span>
+            </a>
           </div>
 
-          {/* Right Column: Hardened Form */}
-          <div className="contact-form-panel">
-            <h3 className="contact-panel-title">Send a Direct Message</h3>
+          {/* Form with Fully Hidden Honeypot */}
+          <div className="contact-panel">
+            <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.25rem", fontWeight: 700, marginBottom: "1rem" }}>
+              Send a Message
+            </h3>
 
-            <form onSubmit={handleSubmit} className="contact-form" noValidate>
-              {/* Honeypot field (hidden from humans, traps automated scrapers) */}
+            <form onSubmit={handleSubmit} noValidate>
+              {/* Fully Hidden Honeypot Field */}
               <div
                 style={{
                   position: "absolute",
                   left: "-9999px",
                   top: "-9999px",
                   opacity: 0,
-                  pointerEvents: "none"
+                  pointerEvents: "none",
+                  display: "none"
                 }}
                 aria-hidden="true"
               >
-                <label htmlFor="hp_website">Leave this field blank</label>
+                <label htmlFor="hp_website">Do not fill this field</label>
                 <input
                   type="text"
                   id="hp_website"
@@ -223,40 +188,38 @@ export default function Contact() {
                 />
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="name" className="form-label">
-                    Your Name <span className="req">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    maxLength={100}
-                    className="form-input"
-                    placeholder="e.g. Alex Mercer"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  />
-                </div>
+              <div className="form-group">
+                <label htmlFor="name" className="form-label">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  maxLength={100}
+                  className="form-input"
+                  placeholder="e.g. Alex Mercer"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                />
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="email" className="form-label">
-                    Your Email <span className="req">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    maxLength={254}
-                    className="form-input"
-                    placeholder="e.g. alex@company.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  />
-                </div>
+              <div className="form-group">
+                <label htmlFor="email" className="form-label">
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  maxLength={254}
+                  className="form-input"
+                  placeholder="e.g. alex@company.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
               </div>
 
               <div className="form-group">
@@ -269,7 +232,7 @@ export default function Contact() {
                   name="subject"
                   maxLength={150}
                   className="form-input"
-                  placeholder="e.g. AI/ML Engineering Role / Collaboration"
+                  placeholder="e.g. ML Internship / Project Inquiry"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 />
@@ -277,20 +240,19 @@ export default function Contact() {
 
               <div className="form-group">
                 <label htmlFor="message" className="form-label">
-                  Message <span className="req">*</span>
+                  Message
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   required
-                  rows={5}
+                  rows={4}
                   maxLength={3000}
                   className="form-textarea"
-                  placeholder="Your message, project details, or role requirements..."
+                  placeholder="Your message..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 />
-                <div className="char-count">{formData.message.length} / 3000</div>
               </div>
 
               {status.message && (
@@ -298,7 +260,7 @@ export default function Contact() {
                   className={`status-alert ${status.type === "success" ? "alert-success" : "alert-error"}`}
                   role="alert"
                 >
-                  {status.type === "error" && <AlertCircle size={16} aria-hidden="true" />}
+                  {status.type === "error" && <AlertCircle size={15} style={{ display: "inline", marginRight: "6px" }} />}
                   <span>{status.message}</span>
                 </div>
               )}
@@ -306,17 +268,18 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={loading}
-                className="btn btn-primary btn-block"
+                className="btn btn-vermilion"
+                style={{ width: "100%" }}
               >
                 {loading ? (
                   <>
-                    <Loader2 size={16} className="btn-spinner" aria-hidden="true" />
-                    <span>Transmitting message...</span>
+                    <Loader2 size={15} className="btn-spinner" aria-hidden="true" />
+                    <span>Sending message...</span>
                   </>
                 ) : (
                   <>
                     <span>Send Message</span>
-                    <Send size={15} aria-hidden="true" />
+                    <Send size={14} aria-hidden="true" />
                   </>
                 )}
               </button>
