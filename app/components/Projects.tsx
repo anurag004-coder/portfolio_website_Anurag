@@ -145,18 +145,6 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {project.imageSrc && (
-                  <div className="case-media-box" style={{ maxWidth: "600px", marginBottom: "1rem" }}>
-                    <Image
-                      src={project.imageSrc}
-                      alt={project.imageAlt || project.title}
-                      width={600}
-                      height={320}
-                      className="case-image"
-                    />
-                  </div>
-                )}
-
                 {/* Real Measured Result Tile */}
                 <div className="measured-result-box" style={{ marginBottom: "1rem" }}>
                   <div className="result-header">

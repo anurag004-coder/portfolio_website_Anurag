@@ -250,8 +250,6 @@ export const portfolioData = {
       designNotes:
         "DistilRoBERTa backbone (mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis), 3-class softmax (Positive, Negative, Neutral), Streamlit web interface.",
       stack: ["Python", "DistilRoBERTa", "Hugging Face", "PyTorch", "Streamlit", "Pandas"],
-      imageSrc: "/projects/financial-sentiment.png",
-      imageAlt: "Financial sentiment analyzer showing classification results and confidence scores",
       liveUrl: "https://financialsentimentanalyzer04.streamlit.app/",
       githubUrl: "https://github.com/anurag004-coder/Financial_Sentiment_Analyzer"
     },
