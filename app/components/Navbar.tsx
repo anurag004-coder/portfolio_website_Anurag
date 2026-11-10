@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { portfolioData } from "../data/portfolioData";
 import { GithubIcon, LinkedinIcon } from "./Icons";
 import { Menu, X, ArrowUpRight } from "lucide-react";
@@ -11,18 +12,16 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      setScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Experience", href: "#experience" },
+    { name: "Case Studies", href: "#projects" },
+    { name: "Technical Stack", href: "#skills" },
+    { name: "Education", href: "#education" },
     { name: "Contact", href: "#contact" }
   ];
 
@@ -30,17 +29,20 @@ export default function Navbar() {
     <>
       <header className={`navbar ${scrolled ? "scrolled" : ""}`}>
         <div className="container nav-container">
-          <a href="#home" className="nav-logo">
-            <img
+          <a href="#home" className="nav-logo" aria-label="Anurag Ashu - Home">
+            <Image
               src="/profile.jpg"
-              alt={portfolioData.personal.name}
+              alt="Anurag Ashu"
+              width={34}
+              height={34}
               className="nav-avatar-img"
+              priority
             />
-            <span>{portfolioData.personal.shortName.toUpperCase()}</span>
-            <span className="nav-logo-badge">AI/ML</span>
+            <span className="nav-logo-name">{portfolioData.personal.name}</span>
+            <span className="nav-badge">AI &amp; ML</span>
           </a>
 
-          <nav>
+          <nav aria-label="Main Navigation">
             <ul className="nav-links">
               {navLinks.map((link) => (
                 <li key={link.name}>
@@ -58,8 +60,8 @@ export default function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               className="btn-icon"
-              title="GitHub Profile"
-              aria-label="GitHub"
+              title="GitHub Profile (anurag004-coder)"
+              aria-label="GitHub Profile"
             >
               <GithubIcon size={18} />
             </a>
@@ -69,58 +71,63 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="btn-icon"
               title="LinkedIn Profile"
-              aria-label="LinkedIn"
+              aria-label="LinkedIn Profile"
             >
               <LinkedinIcon size={18} />
             </a>
             <a href="#contact" className="btn btn-secondary btn-sm">
-              <span>Get in Touch</span>
-              <ArrowUpRight size={14} />
+              <span>Contact</span>
+              <ArrowUpRight size={14} aria-hidden="true" />
             </a>
+
             <button
               className="mobile-toggle"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle navigation menu"
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X size={20} color="#fff" /> : <Menu size={20} color="#fff" />}
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
       </header>
 
       {/* Mobile Drawer */}
-      <div className={`mobile-menu ${mobileMenuOpen ? "open" : ""}`}>
-        {navLinks.map((link) => (
-          <a
-            key={link.name}
-            href={link.href}
-            className="nav-link"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            {link.name}
-          </a>
-        ))}
-        <div style={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
-          <a
-            href={portfolioData.personal.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-secondary btn-sm"
-            style={{ flex: 1 }}
-          >
-            <GithubIcon size={16} />
-            <span>GitHub</span>
-          </a>
-          <a
-            href={portfolioData.personal.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-secondary btn-sm"
-            style={{ flex: 1 }}
-          >
-            <LinkedinIcon size={16} />
-            <span>LinkedIn</span>
-          </a>
+      <div
+        className={`mobile-menu ${mobileMenuOpen ? "open" : ""}`}
+        aria-hidden={!mobileMenuOpen}
+      >
+        <div className="mobile-menu-links">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              className="mobile-nav-link"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {link.name}
+            </a>
+          ))}
+          <div className="mobile-socials">
+            <a
+              href={portfolioData.personal.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary btn-sm"
+            >
+              <GithubIcon size={16} />
+              <span>GitHub</span>
+            </a>
+            <a
+              href={portfolioData.personal.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary btn-sm"
+            >
+              <LinkedinIcon size={16} />
+              <span>LinkedIn</span>
+            </a>
+          </div>
         </div>
       </div>
     </>

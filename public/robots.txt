@@ -1,0 +1,6 @@
+# robots.txt for https://portfolio-website-anurag.vercel.app
+User-agent: *
+Allow: /
+
+Sitemap: https://portfolio-website-anurag.vercel.app/sitemap.xml
+

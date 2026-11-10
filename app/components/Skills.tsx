@@ -1,50 +1,34 @@
-"use client";
-
 import { portfolioData } from "../data/portfolioData";
-import { Bot, Brain, Code2, Database } from "lucide-react";
+
 
 export default function Skills() {
   const { skills } = portfolioData;
 
-  const getCategoryIcon = (index: number) => {
-    switch (index) {
-      case 0:
-        return <Bot size={22} className="skill-category-icon" />;
-      case 1:
-        return <Brain size={22} className="skill-category-icon" />;
-      case 2:
-        return <Code2 size={22} className="skill-category-icon" />;
-      default:
-        return <Database size={22} className="skill-category-icon" />;
-    }
-  };
-
   return (
-    <section id="skills" className="section" style={{ backgroundColor: "rgba(6, 6, 9, 0.55)" }}>
+    <section id="skills" className="section skills-section">
       <div className="container">
         <div className="section-header">
-          <span className="section-eyebrow">02 // Stack</span>
-          <h2 className="section-title">Skills &amp; Technologies</h2>
+          <div className="section-eyebrow">COMPETENCIES</div>
+          <h2 className="section-title">Technical Stack &amp; Tooling</h2>
           <p className="section-subtitle">
-            Specialized competencies across Agentic AI architectures, Deep Learning models, and modern software engineering.
+            Languages, frameworks, vector databases, and machine learning libraries used across deployed systems.
           </p>
         </div>
 
         <div className="skills-grid">
-          {skills.map((cat, index) => (
-            <div key={cat.category} className="skill-category-card">
-              <span className="card-hud-code">{cat.code}</span>
-
-              <div className="skill-category-header">
-                {getCategoryIcon(index)}
-                <h3 className="skill-category-title">{cat.category}</h3>
+          {skills.map((group, idx) => (
+            <div key={group.category} className="skill-category-card">
+              <div className="skill-card-top">
+                <span className="skill-group-idx">
+                  SYS.{(idx + 1).toString().padStart(2, "0")}
+                </span>
+                <h3 className="skill-group-title">{group.category}</h3>
               </div>
-              <p className="skill-category-desc">{cat.description}</p>
 
-              <div className="skill-pills">
-                {cat.skills.map((skill) => (
-                  <span key={skill.name} className="skill-pill">
-                    {skill.name}
+              <div className="skill-tags-cloud">
+                {group.skills.map((skill) => (
+                  <span key={skill} className="skill-tag">
+                    {skill}
                   </span>
                 ))}
               </div>

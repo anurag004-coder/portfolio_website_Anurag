@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { portfolioData } from "../data/portfolioData";
 import { GithubIcon, LinkedinIcon } from "./Icons";
-import { Mail, Send, Copy, Check, MapPin, Loader2, AlertCircle, ExternalLink, Info } from "lucide-react";
+import { Mail, Send, Copy, Check, ExternalLink, Loader2, AlertCircle } from "lucide-react";
 
 export default function Contact() {
   const { personal } = portfolioData;
@@ -13,44 +13,51 @@ export default function Contact() {
     name: "",
     email: "",
     subject: "",
-    message: ""
+    message: "",
+    hp_website: "" // Honeypot field for bot filtering
   });
+
   const [status, setStatus] = useState<{
     type: "success" | "error" | "";
     message: string;
-    details?: string;
   }>({
     type: "",
-    message: "",
-    details: ""
+    message: ""
   });
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(personal.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  // Obfuscated email representation
+  const emailUser = "anuragjha724";
+  const emailDomain = "gmail.com";
+  const fullEmail = `${emailUser}@${emailDomain}`;
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(fullEmail);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // Fallback
+    }
   };
 
-  const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${personal.email}&su=${encodeURIComponent(
-    formData.subject || "Portfolio Inquiry"
-  )}&body=${encodeURIComponent(
-    formData.message
-      ? `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
-      : ""
-  )}`;
-
-  const mailtoUrl = `mailto:${personal.email}?subject=${encodeURIComponent(
-    formData.subject || "Portfolio Inquiry"
-  )}&body=${encodeURIComponent(
-    `From: ${formData.name} (${formData.email})\n\n${formData.message}`
-  )}`;
+  const handleMailto = () => {
+    window.location.href = `mailto:${fullEmail}?subject=${encodeURIComponent(
+      formData.subject || "Portfolio Inquiry"
+    )}`;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setStatus({
+        type: "error",
+        message: "Please fill in your name, email, and message."
+      });
+      return;
+    }
 
     setLoading(true);
-    setStatus({ type: "", message: "", details: "" });
+    setStatus({ type: "", message: "" });
 
     try {
       const response = await fetch("/api/contact", {
@@ -62,32 +69,32 @@ export default function Contact() {
         body: JSON.stringify(formData)
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
-      if (response.ok && (data.success === "true" || data.success === true || (data.message && data.message.includes("submitted")))) {
+      if (response.ok && data.success) {
         setStatus({
           type: "success",
-          message: `Message transmitted to ${personal.email}!`,
-          details:
-            "If this is your first time receiving a website form message, Gmail often routes automated notifications to your Spam or Updates tab. Please check your Gmail Spam/Junk folder for 'FormSubmit' and click 'Report not spam' to ensure immediate delivery to your primary inbox."
+          message: data.message || "Message delivered successfully. I will get back to you shortly."
         });
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } else if (data.message && data.message.includes("Activation")) {
-        setStatus({
-          type: "success",
-          message: "Form activation required by FormSubmit.",
-          details:
-            `FormSubmit has dispatched a one-time activation email to ${personal.email}. Please check your Gmail (including Spam/Updates) for the email titled 'Confirm your email to activate form submissions' and click 'Activate Form'. All future messages will then land in your inbox automatically.`
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+          hp_website: ""
         });
       } else {
-        throw new Error(data.message || "Failed to transmit message.");
+        setStatus({
+          type: "error",
+          message:
+            data.message ||
+            "Unable to transmit message. Please contact via email or LinkedIn directly."
+        });
       }
-    } catch (err: any) {
+    } catch {
       setStatus({
         type: "error",
-        message: "Automated routing encountered an issue.",
-        details:
-          "You can send your message directly using your Gmail or desktop mail app below:"
+        message: "Network transmission error. Please reach out via email or LinkedIn directly."
       });
     } finally {
       setLoading(false);
@@ -95,276 +102,224 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section">
+    <section id="contact" className="section contact-section">
       <div className="container">
         <div className="section-header">
-          <span className="section-eyebrow">05 // Connect</span>
-          <h2 className="section-title">Get In Touch</h2>
+          <div className="section-eyebrow">CONTACT</div>
+          <h2 className="section-title">Get in Touch</h2>
           <p className="section-subtitle">
-            Open for AI/ML engineering roles, Agentic AI research, open-source collaborations, and tech opportunities.
+            Open to AI/ML engineering roles, research internships, and technical collaboration.
           </p>
         </div>
 
         <div className="contact-grid">
-          {/* Left Column: Direct channels & Quick compose */}
-          <div className="contact-info">
-            <div>
-              <h3 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.75rem" }}>
-                Let&apos;s build something intelligent.
-              </h3>
-              <p style={{ color: "var(--text-secondary)", marginBottom: "2rem" }}>
-                Feel free to reach out directly via email, connect on LinkedIn, or inspect my open-source code repositories on GitHub.
-              </p>
+          {/* Left Column: Direct verified channels */}
+          <div className="contact-info-panel">
+            <h3 className="contact-panel-title">Direct Communication</h3>
+            <p className="contact-panel-desc">
+              Feel free to send a message via the form or reach out directly on LinkedIn or email.
+            </p>
 
-              <div className="contact-channels">
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="contact-channel-item"
-                >
-                  <div className="contact-channel-icon">
-                    <Mail size={18} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>EMAIL</div>
-                    <div style={{ color: "#ffffff", fontWeight: 500 }}>{personal.email}</div>
-                  </div>
-                </a>
-
-                <a
-                  href={personal.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-channel-item"
-                >
-                  <div className="contact-channel-icon">
-                    <LinkedinIcon size={18} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>LINKEDIN</div>
-                    <div style={{ color: "#ffffff", fontWeight: 500 }}>anurag-ashu</div>
-                  </div>
-                </a>
-
-                <a
-                  href={personal.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-channel-item"
-                >
-                  <div className="contact-channel-icon">
-                    <GithubIcon size={18} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>GITHUB</div>
-                    <div style={{ color: "#ffffff", fontWeight: 500 }}>@anurag004-coder</div>
-                  </div>
-                </a>
-
-                <div className="contact-channel-item">
-                  <div className="contact-channel-icon">
-                    <MapPin size={18} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>LOCATION</div>
-                    <div style={{ color: "#ffffff", fontWeight: 500 }}>{personal.location}</div>
+            <div className="contact-methods">
+              {/* Email Box with Obfuscation & Copy */}
+              <div className="contact-method-card">
+                <div className="method-icon-wrap" aria-hidden="true">
+                  <Mail size={18} />
+                </div>
+                <div className="method-content">
+                  <div className="method-label">Email Address</div>
+                  <div className="method-value">
+                    <span>{emailUser}</span>
+                    <span className="at-symbol">@</span>
+                    <span>{emailDomain}</span>
                   </div>
                 </div>
+                <div className="method-actions">
+                  <button
+                    type="button"
+                    onClick={handleCopyEmail}
+                    className="btn btn-secondary btn-xs"
+                    title="Copy email to clipboard"
+                    aria-label="Copy email address"
+                  >
+                    {copied ? <Check size={13} /> : <Copy size={13} />}
+                    <span>{copied ? "Copied" : "Copy"}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleMailto}
+                    className="btn btn-primary btn-xs"
+                    title="Open mail application"
+                    aria-label="Send email"
+                  >
+                    <span>Send</span>
+                  </button>
+                </div>
               </div>
-            </div>
 
-            {/* Quick Actions Card */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              <div className="copy-email-box">
-                <span className="copy-email-text">{personal.email}</span>
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  className="btn btn-secondary btn-sm"
-                  style={{ padding: "0.45rem 0.85rem" }}
-                  title="Copy Email to Clipboard"
-                >
-                  {copied ? <Check size={14} color="#4ade80" /> : <Copy size={14} />}
-                  <span>{copied ? "Copied!" : "Copy"}</span>
-                </button>
-              </div>
-
+              {/* LinkedIn Box */}
               <a
-                href={gmailComposeUrl}
+                href={personal.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-secondary btn-sm"
-                style={{ justifyContent: "center" }}
+                className="contact-method-card"
+                title="Open Anurag Ashu's LinkedIn profile"
               >
-                <Mail size={14} />
-                <span>Open in Gmail Compose</span>
-                <ExternalLink size={12} />
+                <div className="method-icon-wrap" aria-hidden="true">
+                  <LinkedinIcon size={18} />
+                </div>
+                <div className="method-content">
+                  <div className="method-label">LinkedIn Profile</div>
+                  <div className="method-value">in/anurag-ashu-834837263</div>
+                </div>
+                <ExternalLink size={15} className="method-arrow" aria-hidden="true" />
+              </a>
+
+              {/* GitHub Box */}
+              <a
+                href={personal.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-method-card"
+                title="Open Anurag Ashu's GitHub profile"
+              >
+                <div className="method-icon-wrap" aria-hidden="true">
+                  <GithubIcon size={18} />
+                </div>
+                <div className="method-content">
+                  <div className="method-label">GitHub Repositories</div>
+                  <div className="method-value">github.com/anurag004-coder</div>
+                </div>
+                <ExternalLink size={15} className="method-arrow" aria-hidden="true" />
               </a>
             </div>
           </div>
 
-          {/* Right Column: Live Form with Dual Send Options */}
-          <div>
-            <form onSubmit={handleSubmit} className="contact-form">
-              {status.type === "success" && (
-                <div
-                  style={{
-                    background: "rgba(34, 197, 94, 0.12)",
-                    border: "1px solid rgba(34, 197, 94, 0.35)",
-                    color: "#4ade80",
-                    padding: "1.1rem",
-                    borderRadius: "12px",
-                    fontSize: "0.92rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.6rem"
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.65rem", fontWeight: 600 }}>
-                    <Check size={18} style={{ flexShrink: 0 }} />
-                    <span>{status.message}</span>
-                  </div>
-                  {status.details && (
-                    <div style={{ fontSize: "0.85rem", color: "#bbf7d0", lineHeight: "1.6" }}>
-                      {status.details}
-                    </div>
-                  )}
-                </div>
-              )}
+          {/* Right Column: Hardened Form */}
+          <div className="contact-form-panel">
+            <h3 className="contact-panel-title">Send a Direct Message</h3>
 
-              {status.type === "error" && (
-                <div
-                  style={{
-                    background: "rgba(239, 68, 68, 0.1)",
-                    border: "1px solid rgba(239, 68, 68, 0.3)",
-                    color: "#f87171",
-                    padding: "1rem",
-                    borderRadius: "12px",
-                    fontSize: "0.9rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.75rem"
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: 600 }}>
-                    <AlertCircle size={17} style={{ flexShrink: 0 }} />
-                    <span>{status.message}</span>
-                  </div>
-                  {status.details && (
-                    <div style={{ fontSize: "0.85rem", color: "#fca5a5" }}>{status.details}</div>
-                  )}
-                  <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginTop: "0.25rem" }}>
-                    <a
-                      href={gmailComposeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-secondary btn-sm"
-                    >
-                      <Mail size={14} />
-                      <span>Send via Gmail Web</span>
-                      <ExternalLink size={12} />
-                    </a>
-                    <a
-                      href={mailtoUrl}
-                      className="btn btn-secondary btn-sm"
-                    >
-                      <span>Default Mail App</span>
-                    </a>
-                  </div>
-                </div>
-              )}
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="contact-name">Your Name</label>
+            <form onSubmit={handleSubmit} className="contact-form" noValidate>
+              {/* Honeypot field (hidden from humans, traps automated scrapers) */}
+              <div
+                style={{
+                  position: "absolute",
+                  left: "-9999px",
+                  top: "-9999px",
+                  opacity: 0,
+                  pointerEvents: "none"
+                }}
+                aria-hidden="true"
+              >
+                <label htmlFor="hp_website">Leave this field blank</label>
                 <input
-                  id="contact-name"
                   type="text"
-                  required
-                  placeholder="e.g. Alex Wayne"
-                  className="form-input"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  disabled={loading}
+                  id="hp_website"
+                  name="hp_website"
+                  value={formData.hp_website}
+                  onChange={(e) => setFormData({ ...formData, hp_website: e.target.value })}
+                  tabIndex={-1}
+                  autoComplete="off"
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="contact-email">Your Email</label>
-                <input
-                  id="contact-email"
-                  type="email"
-                  required
-                  placeholder="alex@example.com"
-                  className="form-input"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  disabled={loading}
-                />
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="name" className="form-label">
+                    Your Name <span className="req">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    maxLength={100}
+                    className="form-input"
+                    placeholder="e.g. Alex Mercer"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="email" className="form-label">
+                    Your Email <span className="req">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    maxLength={254}
+                    className="form-input"
+                    placeholder="e.g. alex@company.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                </div>
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="contact-subject">Subject</label>
+                <label htmlFor="subject" className="form-label">
+                  Subject
+                </label>
                 <input
-                  id="contact-subject"
                   type="text"
-                  placeholder="AI/ML Project Opportunity / Collaboration"
+                  id="subject"
+                  name="subject"
+                  maxLength={150}
                   className="form-input"
+                  placeholder="e.g. AI/ML Engineering Role / Collaboration"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  disabled={loading}
                 />
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="contact-message">Message</label>
+                <label htmlFor="message" className="form-label">
+                  Message <span className="req">*</span>
+                </label>
                 <textarea
-                  id="contact-message"
+                  id="message"
+                  name="message"
                   required
-                  placeholder="Describe your project, team opportunity, or inquiry..."
+                  rows={5}
+                  maxLength={3000}
                   className="form-textarea"
+                  placeholder="Your message, project details, or role requirements..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  disabled={loading}
                 />
+                <div className="char-count">{formData.message.length} / 3000</div>
               </div>
 
-              <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginTop: "0.5rem" }}>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  style={{ flex: "1 1 200px" }}
-                  disabled={loading}
+              {status.message && (
+                <div
+                  className={`status-alert ${status.type === "success" ? "alert-success" : "alert-error"}`}
+                  role="alert"
                 >
-                  {loading ? (
-                    <>
-                      <Loader2 size={16} className="animate-spin" />
-                      <span>Transmitting...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Send Message</span>
-                      <Send size={15} />
-                    </>
-                  )}
-                </button>
+                  {status.type === "error" && <AlertCircle size={16} aria-hidden="true" />}
+                  <span>{status.message}</span>
+                </div>
+              )}
 
-                <a
-                  href={gmailComposeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary"
-                  style={{ flex: "1 1 200px" }}
-                  title="Direct compose in Gmail web app"
-                >
-                  <Mail size={16} />
-                  <span>Send via Gmail</span>
-                  <ExternalLink size={13} />
-                </a>
-              </div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.78rem", color: "var(--text-muted)", marginTop: "0.5rem" }}>
-                <Info size={13} style={{ flexShrink: 0 }} />
-                <span>Form submissions are delivered to anuragjha724@gmail.com (check Gmail Spam if first time).</span>
-              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn btn-primary btn-block"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 size={16} className="btn-spinner" aria-hidden="true" />
+                    <span>Transmitting message...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send Message</span>
+                    <Send size={15} aria-hidden="true" />
+                  </>
+                )}
+              </button>
             </form>
           </div>
         </div>

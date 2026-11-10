@@ -1,85 +1,102 @@
-"use client";
-
 import { portfolioData } from "../data/portfolioData";
 import { GithubIcon } from "./Icons";
-import { ExternalLink, Sparkles, Cpu } from "lucide-react";
+import { ExternalLink, CheckCircle2 } from "lucide-react";
 
 export default function Projects() {
   const { projects } = portfolioData;
 
   return (
-    <section id="projects" className="section">
+    <section id="projects" className="section projects-section">
       <div className="container">
         <div className="section-header">
-          <span className="section-eyebrow">03 // Work</span>
-          <h2 className="section-title">Featured Projects</h2>
+          <div className="section-eyebrow">CASE STUDIES</div>
+          <h2 className="section-title">Engineered Projects &amp; Measured Results</h2>
           <p className="section-subtitle">
-            Engineered machine learning systems, fine-tuned NLP transformers, and full-stack AI applications with live deployments.
+            Detailed breakdowns of end-to-end systems: the problem, architectural methodology, measured benchmarks, and production deployments.
           </p>
         </div>
 
-        <div className="projects-grid">
-          {projects.map((project) => (
-            <div key={project.id} className="project-card">
-              <div>
-                <div className="project-card-header">
-                  <span className="project-badge">
-                    <Sparkles size={12} style={{ display: "inline", marginRight: "4px" }} />
-                    {project.badge}
+        <div className="case-studies-list">
+          {projects.map((project, index) => (
+            <article key={project.id} className="case-study-card" id={project.id}>
+              {/* Header: Project Index, Category, Verified Badge */}
+              <div className="case-study-header">
+                <div className="case-study-meta">
+                  <span className="case-study-index">
+                    {(index + 1).toString().padStart(2, "0")}
                   </span>
-                  <span className="project-category">{project.category}</span>
+                  <span className="case-study-category">{project.category}</span>
                 </div>
 
-                <h3 className="project-title">{project.title}</h3>
+                <div className="case-study-badge">
+                  <CheckCircle2 size={13} className="badge-check-icon" aria-hidden="true" />
+                  <span>{project.verifiedStatus}</span>
+                </div>
+              </div>
 
-                {/* Hover Reveal Architecture Specification Pill */}
-                {project.architectureNote && (
-                  <div className="project-arch-reveal">
-                    <Cpu size={14} color="#e2e8f0" />
-                    <span>{project.architectureNote}</span>
-                  </div>
-                )}
+              {/* Title */}
+              <h3 className="case-study-title">{project.title}</h3>
 
-                <p className="project-desc">{project.description}</p>
+              {/* Grid: Problem & Approach */}
+              <div className="case-study-body-grid">
+                <div className="body-section problem-section">
+                  <h4 className="section-mini-heading">The Problem</h4>
+                  <p className="problem-text">{project.problem}</p>
+                </div>
 
-                <ul className="project-highlights">
-                  {project.highlights.map((highlight, idx) => (
-                    <li key={idx} className="project-highlight-item">
-                      <span>{highlight}</span>
+                <div className="body-section approach-section">
+                  <h4 className="section-mini-heading">Engineering Approach</h4>
+                  <p className="approach-text">{project.approach}</p>
+                </div>
+              </div>
+
+              {/* Architecture Implementation Details */}
+              <div className="architecture-box">
+                <h4 className="section-mini-heading">Architecture Highlights</h4>
+                <ul className="arch-details-list">
+                  {project.architectureDetails.map((detail, idx) => (
+                    <li key={idx} className="arch-detail-item">
+                      <span className="arch-bullet" aria-hidden="true">
+                        ›
+                      </span>
+                      <span>{detail}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div>
-                <div className="project-tech-stack">
+              {/* Quantitative Metrics Grid */}
+              <div className="metrics-grid">
+                {project.metrics.map((metric) => (
+                  <div key={metric.label} className="metric-box">
+                    <div className="metric-value">{metric.value}</div>
+                    <div className="metric-label">{metric.label}</div>
+                    <div className="metric-desc">{metric.description}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Footer: Tech Stack and Links */}
+              <div className="case-study-footer">
+                <div className="tech-pills">
                   {project.tech.map((t) => (
-                    <span key={t} className="project-tech-pill">
+                    <span key={t} className="tech-pill">
                       {t}
                     </span>
                   ))}
                 </div>
 
-                <div className="project-card-footer">
+                <div className="case-study-actions">
                   {project.liveUrl && (
                     <a
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn btn-primary btn-sm"
-                      title="Launch Live Web App"
+                      title={`Launch live demo for ${project.title}`}
                     >
-                      <span
-                        style={{
-                          width: "6px",
-                          height: "6px",
-                          borderRadius: "50%",
-                          background: "#050507",
-                          display: "inline-block"
-                        }}
-                      />
                       <span>Live Demo</span>
-                      <ExternalLink size={13} />
+                      <ExternalLink size={14} aria-hidden="true" />
                     </a>
                   )}
 
@@ -88,14 +105,14 @@ export default function Projects() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-secondary btn-sm"
-                    title="View Source on GitHub"
+                    title={`View GitHub source for ${project.title}`}
                   >
-                    <GithubIcon size={14} />
+                    <GithubIcon size={15} />
                     <span>View Repository</span>
                   </a>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
